@@ -10,13 +10,15 @@ HALF_WIDTH = 25          # 화면 밖으로 안 나가게 할 때 쓰는 소년 
 
 
 class Boy:
-    states = ['idle', 'sleep', 'run']
+    states = ['idle', 'sleep', 'run', 'autorun']
 
     # 상태 변화: trigger(사건)가 일어나면 source 상태에서 dest 상태로 간다
     transitions = [
         {'trigger': 'time_out',   'source': 'idle',  'dest': 'sleep'},   # IDLE에서 5초 지남
         {'trigger': 'space_down', 'source': 'sleep', 'dest': 'idle'},    # SLEEP에서 space 누름
-        {'trigger': 'arrow_down', 'source': ['idle', 'sleep'], 'dest': 'run'},  # IDLE/SLEEP에서 방향키 누름
+        {'trigger': 'arrow_down', 'source': ['idle', 'sleep', 'autorun'], 'dest': 'run'},
+        {'trigger': 'auto_run_start', 'source': 'idle', 'dest': 'autorun'},
+        {'trigger': 'auto_run_timeout', 'source': 'autorun', 'dest': 'idle'},
         {'trigger': 'arrow_up',   'source': 'run',   'dest': 'idle',     # RUN에서 방향키를 다 뗌
          'conditions': 'no_arrow_pressed'},
     ]
