@@ -29,3 +29,11 @@ class AutoRun:
         self.started_at = None
         self.last_updated_at = None
         self.frame = 0
+
+    def update(self):
+        now = get_time()
+        elapsed = max(0, now - self.last_updated_at)
+        self.last_updated_at = now
+
+        self.frame = (self.frame + elapsed * ANIMATION_FPS) % FRAME_COUNT
+        return now - self.started_at >= AUTO_RUN_DURATION
