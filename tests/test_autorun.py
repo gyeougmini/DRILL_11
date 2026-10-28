@@ -79,6 +79,24 @@ class AutoRunTests(unittest.TestCase):
         self.boy.update()
         self.assertEqual(self.boy.state, 'sleep')
 
+    def test_direction_key_cancels_autorun_and_enters_normal_run(self):
+        for key, direction in (
+            (boy.SDLK_LEFT, -1),
+            (boy.SDLK_RIGHT, 1),
+        ):
+            with self.subTest(key=key):
+                self.boy = boy.Boy()
+                self.send_key(boy.SDL_KEYDOWN, boy.SDLK_a)
+                self.send_key(boy.SDL_KEYDOWN, key)
+
+                self.assertEqual(self.boy.state, 'run')
+                self.assertEqual(self.boy.face_dir, direction)
+                self.assertIsNone(self.boy.auto_run.started_at)
+
+                previous_x = self.boy.x
+                self.boy.update()
+                self.assertEqual(self.boy.x, previous_x + direction * boy.RUN_SPEED)
+
 
 if __name__ == '__main__':
     unittest.main()
