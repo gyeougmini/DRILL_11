@@ -36,4 +36,19 @@ class AutoRun:
         self.last_updated_at = now
 
         self.frame = (self.frame + elapsed * ANIMATION_FPS) % FRAME_COUNT
+        half_width = FRAME_SIZE * AUTO_RUN_SCALE / 2
+        left_edge = half_width
+        right_edge = get_canvas_width() - half_width
+        span = right_edge - left_edge
+
+        position = self.boy.x - left_edge + self.direction * self.speed * elapsed
+        reflected_position = position % (2 * span)
+        if reflected_position < span:
+            self.boy.x = left_edge + reflected_position
+            self.direction = 1
+        else:
+            self.boy.x = right_edge - (reflected_position - span)
+            self.direction = -1
+
+        self.boy.face_dir = self.direction
         return now - self.started_at >= AUTO_RUN_DURATION
