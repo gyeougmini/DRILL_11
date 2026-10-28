@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" role="img" aria-labelledby="title description">
+  <title id="title">소년 게임 상태 다이어그램</title>
+  <desc id="description">idle, sleep, run, AutoRun 상태와 키 입력 및 시간 경과에 따른 전이</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .state { fill: #eff6ff; stroke: #2563eb; stroke-width: 2.5; rx: 14; }
+      .auto { fill: #fff7ed; stroke: #ea580c; stroke-width: 2.5; rx: 14; }
+      .label { font: 600 21px "Segoe UI", sans-serif; fill: #0f172a; text-anchor: middle; dominant-baseline: middle; }
+      .edge { fill: none; stroke: #334155; stroke-width: 2.2; marker-end: url(#arrow); }
+      .event { font: 16px "Segoe UI", sans-serif; fill: #334155; text-anchor: middle; }
+      .note { font: 14px "Segoe UI", sans-serif; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="500" y="34" font-family="Segoe UI, sans-serif" font-size="24" font-weight="700" fill="#0f172a" text-anchor="middle">소년 상태 다이어그램</text>
+
+  <rect class="state" x="90" y="165" width="180" height="72"/>
+  <text class="label" x="180" y="201">idle</text>
+
+  <rect class="state" x="535" y="65" width="180" height="72"/>
+  <text class="label" x="625" y="101">sleep</text>
+
+  <rect class="state" x="535" y="235" width="180" height="72"/>
+  <text class="label" x="625" y="271">run</text>
+
+  <rect class="auto" x="90" y="390" width="180" height="72"/>
+  <text class="label" x="180" y="426">AutoRun</text>
+
+  <path class="edge" d="M268 174 C365 80, 440 78, 530 94"/>
+  <text class="event" x="399" y="75">5초 경과</text>
+
+  <path class="edge" d="M535 115 C440 157, 365 154, 268 205"/>
+  <text class="event" x="400" y="157">Space</text>
+
+  <path class="edge" d="M270 201 C360 201, 425 245, 530 263"/>
+  <text class="event" x="397" y="212">방향키 누름</text>
+
+  <path class="edge" d="M535 292 C430 342, 355 277, 266 231"/>
+  <text class="event" x="402" y="328">방향키 모두 놓음</text>
+
+  <path class="edge" d="M180 239 L180 384"/>
+  <text class="event" x="229" y="318">A 키</text>
+
+  <path class="edge" d="M270 426 C425 510, 480 415, 575 312"/>
+  <text class="event" x="424" y="454">왼쪽/오른쪽 방향키</text>
+
+  <path class="edge" d="M90 424 C20 424, 20 201, 84 201"/>
+  <text class="event" x="36" y="325" transform="rotate(-90 36 325)">5초 경과</text>
+
+  <text class="note" x="535" y="350">방향키 입력 시 눌린 방향으로 이동</text>
+  <text class="note" x="90" y="493">AutoRun: 자동 좌우 이동 · 빠른 속도 · 확대 · 화면 끝에서 방향 전환</text>
+</svg>
