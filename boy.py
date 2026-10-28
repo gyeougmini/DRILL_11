@@ -118,6 +118,8 @@ class Boy:
             self.sleep_do()
         elif self.state == 'run':
             self.run_do()
+        elif self.state == 'autorun' and self.auto_run.update():
+            self.auto_run_timeout()
 
     def draw(self):
         if self.state == 'idle':
@@ -126,3 +128,5 @@ class Boy:
             self.sleep_draw()
         elif self.state == 'run':
             self.run_draw()
+        elif self.state == 'autorun':
+            self.auto_run.draw()
