@@ -16,6 +16,7 @@ class AutoRun:
         self.image = load_image('run_animation.png')
         self.frame = 0
         self.direction = 1
+        self.position_phase = None
         self.started_at = None
         self.last_updated_at = None
 
@@ -24,11 +25,18 @@ class AutoRun:
         self.last_updated_at = self.started_at
         self.frame = 0
         self.direction = self.boy.face_dir or 1
+        half_width = FRAME_SIZE * AUTO_RUN_SCALE / 2
+        span = get_canvas_width() - 2 * half_width
+        position = min(max(self.boy.x - half_width, 0), span)
+        self.position_phase = (
+            position if self.direction > 0 else (2 * span - position) % (2 * span)
+        )
 
     def stop(self):
         self.started_at = None
         self.last_updated_at = None
         self.frame = 0
+        self.position_phase = None
 
     def update(self):
         now = get_time()
@@ -41,13 +49,14 @@ class AutoRun:
         right_edge = get_canvas_width() - half_width
         span = right_edge - left_edge
 
-        position = self.boy.x - left_edge + self.direction * self.speed * elapsed
-        reflected_position = position % (2 * span)
-        if reflected_position < span:
-            self.boy.x = left_edge + reflected_position
+        self.position_phase = (
+            self.position_phase + self.speed * elapsed
+        ) % (2 * span)
+        if self.position_phase < span:
+            self.boy.x = left_edge + self.position_phase
             self.direction = 1
         else:
-            self.boy.x = right_edge - (reflected_position - span)
+            self.boy.x = right_edge - (self.position_phase - span)
             self.direction = -1
 
         self.boy.face_dir = self.direction

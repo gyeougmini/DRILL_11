@@ -79,6 +79,33 @@ class AutoRunTests(unittest.TestCase):
         self.boy.update()
         self.assertEqual(self.boy.state, 'sleep')
 
+    def test_autorun_keeps_moving_away_from_both_walls_after_bouncing(self):
+        for start_x, start_direction, expected_direction in (
+            (700, 1, -1),
+            (100, -1, 1),
+        ):
+            with self.subTest(start_x=start_x):
+                self.boy = boy.Boy()
+                self.now[0] = 0
+                self.boy.x = start_x
+                self.boy.face_dir = start_direction
+                self.send_key(boy.SDL_KEYDOWN, boy.SDLK_a)
+
+                self.now[0] = 0.1
+                self.boy.update()
+                self.assertEqual(self.boy.auto_run.direction, expected_direction)
+                previous_x = self.boy.x
+
+                for step in range(2, 6):
+                    self.now[0] = step / 10
+                    self.boy.update()
+                    self.assertEqual(self.boy.auto_run.direction, expected_direction)
+                    self.assertGreater(
+                        (self.boy.x - previous_x) * expected_direction,
+                        0,
+                    )
+                    previous_x = self.boy.x
+
     def test_direction_key_cancels_autorun_and_enters_normal_run(self):
         for key, direction in (
             (boy.SDLK_LEFT, -1),
