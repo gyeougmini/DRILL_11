@@ -45,6 +45,12 @@ class Boy:
     def on_enter_idle(self):
         self.idle_start_time = get_time()
 
+    def on_enter_autorun(self):
+        self.auto_run.start()
+
+    def on_exit_autorun(self):
+        self.auto_run.stop()
+
     # IDLE 상태에서 매 프레임 하는 일
     def idle_do(self):
         self.frame = (self.frame + ANIMATION_SPEED) % 8
