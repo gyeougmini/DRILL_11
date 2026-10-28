@@ -57,6 +57,28 @@ class AutoRunTests(unittest.TestCase):
         self.send_key(boy.SDL_KEYDOWN, boy.SDLK_a)
         self.assertEqual(self.boy.state, 'run')
 
+    def test_autorun_bounces_and_returns_to_idle_after_five_seconds(self):
+        self.boy.x = 700
+        self.send_key(boy.SDL_KEYDOWN, boy.SDLK_a)
+        self.now[0] = 0.1
+        self.boy.update()
+
+        self.assertEqual(self.boy.state, 'autorun')
+        self.assertAlmostEqual(self.boy.x, 705)
+        self.assertEqual(self.boy.face_dir, -1)
+
+        self.now[0] = 5
+        self.boy.update()
+        self.assertEqual(self.boy.state, 'idle')
+        self.assertIsNone(self.boy.auto_run.started_at)
+
+        self.now[0] = 9.9
+        self.boy.update()
+        self.assertEqual(self.boy.state, 'idle')
+        self.now[0] = 10
+        self.boy.update()
+        self.assertEqual(self.boy.state, 'sleep')
+
 
 if __name__ == '__main__':
     unittest.main()
