@@ -2,6 +2,8 @@ from pico2d import (load_image, get_time, get_canvas_width, clamp,
                     SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT)
 from transitions import Machine
 
+from autorun import AutoRun
+
 ANIMATION_SPEED = 0.1    # 루프 1번에 넘길 프레임 수 (루프 약 100번/초 → 초당 약 10프레임)
 RUN_SPEED = 3            # 루프 1번에 움직이는 픽셀 수
 HALF_WIDTH = 25          # 화면 밖으로 안 나가게 할 때 쓰는 소년 몸의 반 너비
@@ -26,6 +28,7 @@ class Boy:
         self.image = load_image('animation_sheet.png')
         self.idle_start_time = get_time()
         self.left_pressed, self.right_pressed = False, False
+        self.auto_run = AutoRun(self, RUN_SPEED)
 
         # transitions 상태 머신: 상태가 바뀌면 self.state 값이 바뀐다
         # ignore_invalid_triggers: 지금 상태에서 쓸 수 없는 trigger는 에러 없이 무시
