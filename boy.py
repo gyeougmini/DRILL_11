@@ -1,5 +1,6 @@
 from pico2d import (load_image, get_time, get_canvas_width, clamp,
-                    SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT)
+                    SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT,
+                    SDLK_a)
 from transitions import Machine
 
 from autorun import AutoRun
@@ -95,13 +96,19 @@ class Boy:
 
     def handle_event(self, event):
         if event.type == SDL_KEYDOWN:
-            if event.key == SDLK_SPACE:
+            if event.key == SDLK_a:
+                self.auto_run_start()
+            elif event.key == SDLK_SPACE:
                 self.space_down()
             elif event.key in (SDLK_LEFT, SDLK_RIGHT):
                 if event.key == SDLK_LEFT:
                     self.left_pressed = True
+                    if self.state == 'autorun':
+                        self.face_dir = -1
                 else:
                     self.right_pressed = True
+                    if self.state == 'autorun':
+                        self.face_dir = 1
                 self.arrow_down()
         elif event.type == SDL_KEYUP:
             if event.key in (SDLK_LEFT, SDLK_RIGHT):
