@@ -97,6 +97,15 @@ class AutoRunTests(unittest.TestCase):
                 self.boy.update()
                 self.assertEqual(self.boy.x, previous_x + direction * boy.RUN_SPEED)
 
+    def test_autorun_draws_enlarged_frame_flipped_when_running_left(self):
+        self.boy.face_dir = -1
+        self.send_key(boy.SDL_KEYDOWN, boy.SDLK_a)
+        self.boy.draw()
+
+        self.assertEqual(len(self.image.draw_calls), 1)
+        self.assertEqual(self.image.draw_calls[0][5], 'h')
+        self.assertEqual(self.image.draw_calls[0][-2:], (150, 150))
+
 
 if __name__ == '__main__':
     unittest.main()
