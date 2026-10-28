@@ -18,3 +18,14 @@ class AutoRun:
         self.direction = 1
         self.started_at = None
         self.last_updated_at = None
+
+    def start(self):
+        self.started_at = get_time()
+        self.last_updated_at = self.started_at
+        self.frame = 0
+        self.direction = self.boy.face_dir or 1
+
+    def stop(self):
+        self.started_at = None
+        self.last_updated_at = None
+        self.frame = 0
