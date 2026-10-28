@@ -52,3 +52,12 @@ class AutoRun:
 
         self.boy.face_dir = self.direction
         return now - self.started_at >= AUTO_RUN_DURATION
+
+    def draw(self):
+        frame_x = int(self.frame) * FRAME_SIZE
+        size = FRAME_SIZE * AUTO_RUN_SCALE
+        flip = 'h' if self.direction < 0 else ''
+        self.image.clip_composite_draw(
+            frame_x, 0, FRAME_SIZE, FRAME_SIZE, 0, flip,
+            self.boy.x, self.boy.y, size, size
+        )
